@@ -12,29 +12,40 @@ by Jeffery Myers is marked with CC0 1.0. To view a copy of this license, visit h
 #include "raygui.h"
 #include "resource_dir.h"	// utility header for SearchAndSetResourceDir
 #define FPS 60 // defines frames per second
+#define NUM_OF_BALLS 1 // deifnes the number of balls simulated
 struct Ball {
-    double postionX;
+    double positionX;
     double positionY;
     double velocityX;
     double velocityY;
 };
-    struct Ball balls[1];
+struct Ball balls[NUM_OF_BALLS];
 void calculatePos( double* postionInital, double*velocityInital);
 bool isCollison(struct Ball ball);
+void update();
 int main ()
 {
-    InitWindow(400, 200, "raygui - controls test suite");
+    for(int i = 0; i < NUM_OF_BALLS; i++) {
+        balls[i].positionY = 20;
+        balls[i].positionX = 10;
+    }
+    InitWindow(1000, 800, "raygui - controls test suite");
     SetTargetFPS(FPS);
+    Texture2D ball = LoadTexture("resources/ball-red-3d-small.png");
     bool showMessageBox = false;
-    
+
 
     while (!WindowShouldClose())
     {
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
-	
-
+         for(int i = 0; i < NUM_OF_BALLS; i++)
+         {
+            DrawTexture(ball, balls[i].positionX, balls[i].positionY, WHITE);
+         }
+         
+         update();
 
 
         EndDrawing();
@@ -42,6 +53,13 @@ int main ()
 
     CloseWindow();
     return 0;
+}
+void update() {
+    // need to work out the logic on white board
+    for(int i = 0; i < NUM_OF_BALLS; i++)
+    {
+    // calculatePosition(&balls[i].positionX, ); 
+    }
 }
 /*
 Calculates the final position for each frame, given an initial position and initial velocity.
