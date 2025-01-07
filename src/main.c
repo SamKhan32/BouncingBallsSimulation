@@ -26,8 +26,10 @@ void update();
 int main ()
 {
     for(int i = 0; i < NUM_OF_BALLS; i++) {
-        balls[i].positionY = 20;
-        balls[i].positionX = 10;
+        balls[i].positionY = 20 + i *5;
+        balls[i].positionX = 10 + i *5;
+        balls[i].velocityX = 10;
+        balls[i].velocityY = 5;
     }
     InitWindow(1000, 800, "raygui - controls test suite");
     SetTargetFPS(FPS);
@@ -40,13 +42,13 @@ int main ()
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
+        ClearBackground(BLACK);
          for(int i = 0; i < NUM_OF_BALLS; i++)
          {
             DrawTexture(ball, balls[i].positionX, balls[i].positionY, WHITE);
          }
-         
          update();
-
+         
 
         EndDrawing();
     }
@@ -58,7 +60,8 @@ void update() {
     // need to work out the logic on white board
     for(int i = 0; i < NUM_OF_BALLS; i++)
     {
-    // calculatePosition(&balls[i].positionX, ); 
+    calculatePosition(&balls[i].positionX, &balls[i].velocityX); 
+    calculatePosition(&balls[i].positionY, &balls[i].velocityY); 
     }
 }
 /*
@@ -70,6 +73,7 @@ Assumes constant acceleration.
 void calculatePosition(double* positionInitial, double* velocityInitial) {
     *positionInitial = *positionInitial + (1.0 / FPS) * *velocityInitial;
 }
+
 bool isCollison(struct Ball ball) {
     struct Ball* ballsPtr = balls;
     // top wall collision
